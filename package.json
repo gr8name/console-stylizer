@@ -1,23 +1,23 @@
 {
-  "name"       : "console-stylizer",
-  "version"    : "0.0.1",
+  "name": "console-stylizer",
+  "version": "0.0.1",
   "description": "Library for console messages stylization",
-  "main"       : "index.js",
-  "scripts"    : {
-    "test": "test"
+  "main": "src/index.js",
+  "scripts": {
+    "docs": "jsdoc -c conf.json"
   },
-  "repository" : {
+  "repository": {
     "type": "git",
-    "url" : "git+https://github.com/gr8name/console-stylizer.git"
+    "url": "git+https://github.com/gr8name/console-stylizer.git"
   },
-  "keywords"   : [
+  "keywords": [
     "console",
     "style"
   ],
-  "author"     : "Olena Rubanenko",
-  "license"    : "ISC",
-  "bugs"       : {
+  "author": "Olena Rubanenko",
+  "license": "ISC",
+  "bugs": {
     "url": "https://github.com/gr8name/console-stylizer/issues"
   },
-  "homepage"   : "https://github.com/gr8name/console-stylizer#readme"
+  "homepage": "https://github.com/gr8name/console-stylizer#readme"
 }

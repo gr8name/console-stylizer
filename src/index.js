@@ -1,3 +1,6 @@
+/**
+ * Function for printing stylized test message.
+ */
 exports.tstMsg = function () {
   console.log(
     '%c test message',
