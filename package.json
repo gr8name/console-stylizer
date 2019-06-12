@@ -2,9 +2,13 @@
   "name": "console-stylizer",
   "version": "0.0.1",
   "description": "Library for console messages stylization",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "docs": "jsdoc -c conf.json"
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "docs": "jsdoc -c conf.json",
+    "test": "jest",
+    "test:tdd": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -19,5 +23,15 @@
   "bugs": {
     "url": "https://github.com/gr8name/console-stylizer/issues"
   },
-  "homepage": "https://github.com/gr8name/console-stylizer#readme"
+  "homepage": "https://github.com/gr8name/console-stylizer#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.1"
+  },
+  "dependencies": {
+    "@types/node": "^12.0.7"
+  }
 }
