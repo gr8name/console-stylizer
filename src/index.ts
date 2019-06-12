@@ -1,8 +1,12 @@
+import getEnv from './defineEnv';
+
 /**
  * Function for printing stylized test message.
  */
 // @ts-ignore
 export const tstMsg = () => {
+  getEnv();
+  
   console.log(
     '%c test message',
     'font-weight: bold;' +
@@ -19,7 +23,8 @@ export const tstMsg = () => {
   console.log('\x1b[33m%s\x1b[0m', 'I am yellow');
 };
 
-exports.tstMsg = tstMsg;
+tstMsg();
+// exports.tstMsg = tstMsg;
 
 /*
 Reset = "\x1b[0m"
