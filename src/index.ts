@@ -1,55 +1,82 @@
-import getEnv from './defineEnv';
+import {backgroundColors, fontColors, IColor} from './colors';
+import getEnv, {Environment} from './defineEnv';
 
 /**
- * Function for printing stylized test message.
+ * Config used for console stylizing
  */
-// @ts-ignore
-export const tstMsg = () => {
-  getEnv();
-  
-  console.log(
-    '%c test message',
-    'font-weight: bold;' +
-      'font-size: 50px;' +
-      'color: red;' +
-      'text-shadow: ' +
-      '3px 3px 0 rgb(217,31,38), ' +
-      '6px 6px 0 rgb(245,221,8), ' +
-      '9px 9px 0 rgb(5,148,68), ' +
-      '12px 12px 0 rgb(42,21,113);'
-  );
-  
-  console.log('\x1b[36m%s\x1b[0m', 'I am cyan');
-  console.log('\x1b[33m%s\x1b[0m', 'I am yellow');
+const config = {
+  bgColor: backgroundColors.red,
+  fontColor: fontColors.magenta,
 };
 
-tstMsg();
-// exports.tstMsg = tstMsg;
-
-/*
-Reset = "\x1b[0m"
-Bright = "\x1b[1m"
-Dim = "\x1b[2m"
-Underscore = "\x1b[4m"
-Blink = "\x1b[5m"
-Reverse = "\x1b[7m"
-Hidden = "\x1b[8m"
-
-FgBlack = "\x1b[30m"
-FgRed = "\x1b[31m"
-FgGreen = "\x1b[32m"
-FgYellow = "\x1b[33m"
-FgBlue = "\x1b[34m"
-FgMagenta = "\x1b[35m"
-FgCyan = "\x1b[36m"
-FgWhite = "\x1b[37m"
-
-BgBlack = "\x1b[40m"
-BgRed = "\x1b[41m"
-BgGreen = "\x1b[42m"
-BgYellow = "\x1b[43m"
-BgBlue = "\x1b[44m"
-BgMagenta = "\x1b[45m"
-BgCyan = "\x1b[46m"
-BgWhite = "\x1b[47m"
+/**
+ * Function used for console stylizing in node environment
  */
+const nodeConsoleDecorator = (
+  logger: (message?: any, ...othrParams: any[]) => void,
+  env: Environment.Browser|Environment.Node
+) => function() {
+  const resetCode = '\x1b[0m';
+  const bgColor = config.bgColor[env];
+  const fontColor = config.fontColor[env];
+  
+  logger.call(this, bgColor + fontColor + 'Warning!!!(extra text) ' + resetCode + getEnv());
+  logger.apply(this, Array.prototype.slice.call(arguments));
+};
+
+/**
+ * Function used for console stylizing in browser environment
+ */
+const browserConsoleDecorator = (
+  logger: (message?: any, ...otherParams: any[]) => void,
+  env: Environment.Browser | Environment.Node
+) => function() {
+  const bgColor: string   = config.bgColor[env];
+  const fontColor: string = config.fontColor[env];
+  
+  logger.call(this, '%c' + 'Warning!!!(extra text)', bgColor + fontColor, getEnv());
+  logger.apply(this, Array.prototype.slice.call(arguments));
+};
+
+/**
+ * Function that changes font color  in config
+ */
+const setFontColor = (color: IColor) => {
+  if (color) {
+    config.fontColor = color;
+  }
+};
+
+/**
+ * Function that changes font background color in config
+ */
+const setBgColor = (color: IColor) => {
+  if (color) {
+    config.bgColor = color;
+  }
+};
+
+/**
+ * Function that initialise styles for console.warn logger
+ */
+export const initWarn = function() {
+  const warn = console.warn;
+  
+  const env = getEnv();
+  
+  if (env === Environment.Node) {
+    console.warn = nodeConsoleDecorator(warn, env);
+  } else if (env === Environment.Browser) {
+    console.warn = browserConsoleDecorator(warn, env);
+  }
+};
+
+initWarn();
+
+console.warn('warning body');
+setBgColor(backgroundColors.cyan);
+console.warn('works?');
+setFontColor(fontColors.yellow);
+console.warn({hi: 'there'});
+
+// exports.tstMsg = tstMsg;

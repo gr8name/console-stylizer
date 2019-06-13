@@ -1,5 +1,26 @@
 {
+  "compilerOptions": {
+    "declaration": true,
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": true
+  },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "**/*.test.ts"
+  ],
+  "lib": [
+    "ES2018"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ]
   ]
 }
