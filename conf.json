@@ -7,7 +7,7 @@
     "plugins/markdown"
   ],
   "source": {
-    "include": ["src"],
+    "include": ["dist"],
     "includePattern": ".+\\.(j|t)s(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },

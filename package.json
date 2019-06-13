@@ -4,8 +4,9 @@
   "description": "Library for console messages stylization",
   "main": "src/index.ts",
   "scripts": {
-    "start": "",
     "build": "tsc",
+    "build:browser": "browserify dist/index.js > bundle.js",
+    "run:node": "node dist/index.js",
     "lint": "tslint -p tsconfig.json",
     "docs": "jsdoc -c conf.json",
     "test": "jest",

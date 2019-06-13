@@ -1,5 +1,22 @@
 {
+  "compilerOptions": {
+    "outDir": "dist"
+  },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "**/*.test.ts"
+  ],
+  "lib": [
+    "ES2018"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ]
   ]
 }

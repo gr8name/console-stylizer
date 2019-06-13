@@ -6,6 +6,7 @@ node_js:
 branches:
   only:
   - master
+  - /^feature\/.*$/
 
 before_install:
   - npm i -g npm@6.9.0

@@ -1,5 +1,5 @@
-import {tstMsg} from './index';
+import {initWarn} from './index';
 
 test('test function', () => {
-  expect(tstMsg()).toBeUndefined();
+  expect(initWarn()).toBeUndefined();
 });
