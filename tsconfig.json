@@ -3,8 +3,7 @@
     "declaration": true,
     "noImplicitAny": true,
     "outDir": "dist",
-    "preserveConstEnums": true,
-    "removeComments": true
+    "preserveConstEnums": true
   },
   "include": [
     "src/**/*"

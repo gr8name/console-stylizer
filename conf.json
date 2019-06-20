@@ -1,13 +1,39 @@
 {
+  "babel": {
+    "extensions": [
+      "ts",
+      "tsx"
+    ],
+    "ignore"    : [
+      "**/*.(test|spec).ts"
+    ],
+    "babelrc"   : false,
+    "presets"   : [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": true
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ],
+    "plugins"   : [
+      "@babel/proposal-object-rest-spread"
+    ]
+  },
   "opts": {
     "destination": "docs",
     "recurse"    : true
   },
   "plugins": [
-    "plugins/markdown"
+    "plugins/markdown",
+    "node_modules/jsdoc-babel"
   ],
   "source": {
-    "include": ["dist"],
+    "include": ["src"],
+    "exclude": ["dist"],
     "includePattern": ".+\\.(j|t)s(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
