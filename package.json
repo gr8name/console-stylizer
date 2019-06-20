@@ -16,9 +16,9 @@
     "url": "https://github.com/gr8name/console-stylizer/issues"
   },
   "homepage": "https://github.com/gr8name/console-stylizer#readme",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "files": [
-    "dist/"
+    "dist"
   ],
   "scripts": {
     "build": "tsc",
