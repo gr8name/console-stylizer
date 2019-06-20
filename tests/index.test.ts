@@ -1,5 +1,5 @@
-import {initWarn} from '../src';
+import {Console, init} from '../src';
 
 test('test function', () => {
-  expect(initWarn()).toBeUndefined();
+  expect(init(Console.Warn)).toBeUndefined();
 });

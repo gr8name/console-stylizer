@@ -7,6 +7,8 @@ export interface IColorsPalette {
   [propName: string]: IColor;
 }
 
+export const resetCode = '\x1b[0m';
+
 export const fontColors: IColorsPalette = {
   black: {
     browser: 'color: black;',
@@ -19,6 +21,10 @@ export const fontColors: IColorsPalette = {
   cyan: {
     browser: 'color: cyan;',
     node   : '\x1b[36m'
+  },
+  default: {
+    browser: '',
+    node   : resetCode
   },
   green: {
     browser: 'color: green;',
@@ -54,6 +60,10 @@ export const backgroundColors: IColorsPalette = {
   cyan   : {
     browser: 'background-color: cyan;',
     node   : '\x1b[46m'
+  },
+  default: {
+    browser: '',
+    node   : resetCode
   },
   green  : {
     browser: 'background-color: green;',
