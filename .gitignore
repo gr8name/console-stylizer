@@ -6,3 +6,6 @@ docs/
 
 # Ignore test coverage date
 coverage/
+
+# Ignore built files
+dist/

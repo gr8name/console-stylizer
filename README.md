@@ -34,5 +34,5 @@ npm install -g jsdoc
 ```
 2. Run:
 ```
-npm rub docs
+npm run build:doc
 ```

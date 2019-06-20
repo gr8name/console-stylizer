@@ -1,36 +1,49 @@
 {
   "name": "console-stylizer",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Library for console messages stylization",
-  "main": "src/index.ts",
-  "scripts": {
-    "start": "",
-    "build": "tsc",
-    "lint": "tslint -p tsconfig.json",
-    "docs": "jsdoc -c conf.json",
-    "test": "jest",
-    "test:tdd": "jest --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gr8name/console-stylizer.git"
-  },
   "keywords": [
     "console",
     "style"
   ],
   "author": "Olena Rubanenko",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gr8name/console-stylizer.git"
+  },
   "bugs": {
     "url": "https://github.com/gr8name/console-stylizer/issues"
   },
   "homepage": "https://github.com/gr8name/console-stylizer#readme",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:prod": "tsc -b --verbose",
+    "build:browser": "browserify dist/index.js > bundle.js",
+    "build:doc": "jsdoc2md --files src/*.ts --configure conf.json > docs.md",
+    "run:node": "node dist/index.js",
+    "lint": "tslint -p tsconfig.json",
+    "docs": "jsdoc -c conf.json",
+    "test": "jest",
+    "test:tdd": "jest --watch"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.13",
     "jest": "^24.8.0",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-to-markdown": "^5.0.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "@types/node": "^12.0.7"

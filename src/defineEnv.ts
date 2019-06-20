@@ -1,9 +1,9 @@
 /*
   Possible environment types
  */
-enum Environment {
+export enum Environment {
   Browser = 'browser',
-  Node = 'node.js',
+  Node = 'node',
   Unknown = 'unknown'
 }
 
