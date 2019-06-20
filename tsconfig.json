@@ -10,10 +10,10 @@
     "src/**/*"
   ],
   "exclude": [
-    "**/*.test.ts"
+    "tests/**/*"
   ],
   "lib": [
-    "ES2018"
+    "es6"
   ],
   "presets": [
     [
