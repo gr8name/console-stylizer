@@ -1,6 +1,6 @@
 {
   "name": "console-stylizer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Library for console messages stylization",
   "keywords": [
     "console",
