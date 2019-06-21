@@ -1,5 +1,5 @@
 import {backgroundColors, fontColors, IColor, resetCode} from './colors';
-import getEnv, {Environment} from './defineEnv';
+import getEnv, {Environment, envNotification} from './defineEnv';
 
 type Logger = (message?: any, ...otherParams: any[]) => void;
 type Config = { [propName in Console]: {
@@ -40,25 +40,26 @@ const config: Config = initialiseStylizeConfig();
 /**
  * Function used for console stylizing in node environment
  */
-const nodeConsoleDecorator = (logger: Logger, consoleType: Console) => function() {
+const nodeConsoleDecorator = (logger: Logger, consoleType: Console) => function(...args: any[]) {
   const env = Environment.Node;
   const bgColor = config[consoleType].bgColor[env];
   const fontColor = config[consoleType].fontColor[env];
-  
-  logger.call(this, bgColor + fontColor + 'Warning!!!(extra text) ' + resetCode /*+ getEnv()*/);
-  logger.apply(this, Array.prototype.slice.call(arguments));
+
+  logger.apply(this, Array.prototype.slice.call([bgColor, fontColor, ...args, resetCode]));
 };
 
 /**
  * Function used for console stylizing in browser environment
  */
-const browserConsoleDecorator = (logger: Logger, consoleType: Console) => function() {
+const browserConsoleDecorator = (logger: Logger, consoleType: Console) => function(...args: any[]) {
   const env = Environment.Browser;
   const bgColor: string   = config[consoleType].bgColor[env];
   const fontColor: string = config[consoleType].fontColor[env];
   
-  logger.call(this, '%c' + 'Warning!!!(extra text)', bgColor + fontColor/*, getEnv()*/);
-  logger.apply(this, Array.prototype.slice.call(arguments));
+  const [message, ...restArgs] = args;
+  
+  const textMessage = typeof message === 'object' ? JSON.stringify(message) : message;
+  logger.apply(this, Array.prototype.slice.call(['%c' + textMessage, bgColor + fontColor, ...restArgs]));
 };
 
 /**
@@ -82,11 +83,15 @@ export const setBgColor = (consoleType: Console, color: IColor) => {
 /**
  * Function that initialise styles for selected logger
  */
-export const init = function(consoleType: Console) {
+export const init = function(consoleType: Console, showStylizationNotification: boolean) {
   const logger = console[consoleType];
   const env = getEnv();
-  console.log(`console.${consoleType} is stylised`);
-  console.log();
+  
+  if (showStylizationNotification) {
+    envNotification(env);
+    console.log(`console.${consoleType} is stylised`);
+    console.log();
+  }
   
   if (logger && env !== Environment.Unknown) {
     

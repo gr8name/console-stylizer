@@ -10,7 +10,7 @@ export enum Environment {
 /*
   Logs current environment type to console
  */
-const envNotification = (env: Environment) => console.log('running under ' + env.toString());
+export const envNotification = (env: Environment) => console.log('running under ' + env.toString());
 
 /*
   Function that defines code environment (node|browser|unknown)
@@ -31,7 +31,7 @@ const getEnv = (): Environment => {
     env = Environment.Unknown;
   }
   
-  envNotification(env);
+  // envNotification(env);
   return env;
 };
 
