@@ -83,7 +83,7 @@ export const setBgColor = (consoleType: Console, color: IColor) => {
 /**
  * Function that initialise styles for selected logger
  */
-export const init = function(consoleType: Console, showStylizationNotification: boolean) {
+export const init = function(consoleType: Console, showStylizationNotification?: boolean) {
   const logger = console[consoleType];
   const env = getEnv();
   
