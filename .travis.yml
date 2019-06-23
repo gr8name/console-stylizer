@@ -25,4 +25,6 @@ deploy:
   api_key: $npm_token
   skip_cleanup: true
   on:
-      branch: production
+     branches:
+          only:
+            - master
