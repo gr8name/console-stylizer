@@ -1,46 +1,15 @@
-import {backgroundColors, fontColors, IColor, resetCode} from './colors';
-import getEnv, {Environment, envNotification} from './defineEnv';
+import {IColor, resetCode} from './colors';
+import {config} from './config';
+import {ConsoleType} from './consoleType';
+import getEnv from './defineEnv';
+import {Environment} from './environment';
 
 type Logger = (message?: any, ...otherParams: any[]) => void;
-type Config = { [propName in Console]: {
-    bgColor: IColor,
-    fontColor: IColor
-  }; };
-
-/**
- * Enum used for selecting console logger function
- */
-export enum Console {
-  Error = 'error',
-  Warn = 'warn',
-  Log = 'log'
-}
-
-const initialiseStylizeConfig = (): Config => {
-  return Object.keys(Console).reduce(
-    (initialConfig: Config, consoleType: Console) => {
-      return {
-        ...initialConfig,
-        [consoleType.toString().toLowerCase()]: {
-          bgColor  : backgroundColors.default,
-          fontColor: fontColors.default
-        }
-      };
-    },
-    {}
-  ) as Config;
-};
-
-/**
- * Config used for console stylizing
- * @type {Config}
- */
-const config: Config = initialiseStylizeConfig();
 
 /**
  * Function used for console stylizing in node environment
  */
-const nodeConsoleDecorator = (logger: Logger, consoleType: Console) => function(...args: any[]) {
+const nodeConsoleDecorator = (logger: Logger, consoleType: ConsoleType) => function(...args: any[]) {
   const env = Environment.Node;
   const bgColor = config[consoleType].bgColor[env];
   const fontColor = config[consoleType].fontColor[env];
@@ -51,7 +20,7 @@ const nodeConsoleDecorator = (logger: Logger, consoleType: Console) => function(
 /**
  * Function used for console stylizing in browser environment
  */
-const browserConsoleDecorator = (logger: Logger, consoleType: Console) => function(...args: any[]) {
+const browserConsoleDecorator = (logger: Logger, consoleType: ConsoleType) => function(...args: any[]) {
   const env = Environment.Browser;
   const bgColor: string   = config[consoleType].bgColor[env];
   const fontColor: string = config[consoleType].fontColor[env];
@@ -65,7 +34,7 @@ const browserConsoleDecorator = (logger: Logger, consoleType: Console) => functi
 /**
  * Function that changes font color  in stylizerConfig
  */
-export const setFontColor = (consoleType: Console, color: IColor) => {
+export const setFontColor = (consoleType: ConsoleType, color: IColor) => {
   if (color) {
     config[consoleType].fontColor = color;
   }
@@ -74,7 +43,7 @@ export const setFontColor = (consoleType: Console, color: IColor) => {
 /**
  * Function that changes font background color in stylizerConfig
  */
-export const setBgColor = (consoleType: Console, color: IColor) => {
+export const setBgColor = (consoleType: ConsoleType, color: IColor) => {
   if (color) {
     config[consoleType].bgColor = color;
   }
@@ -83,12 +52,12 @@ export const setBgColor = (consoleType: Console, color: IColor) => {
 /**
  * Function that initialise styles for selected logger
  */
-export const init = function(consoleType: Console, showStylizationNotification?: boolean) {
+export const init = function(consoleType: ConsoleType, showStylizationNotification?: boolean) {
   const logger = console[consoleType];
   const env = getEnv();
   
   if (showStylizationNotification) {
-    envNotification(env);
+    // envNotification(env);
     console.log(`console.${consoleType} is stylised`);
     console.log();
   }

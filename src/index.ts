@@ -1,19 +1,20 @@
 import {backgroundColors, fontColors} from './colors';
-import {Console, init, setBgColor, setFontColor} from './initialyser';
+import {ConsoleType} from './consoleType';
+import {init, setBgColor, setFontColor} from './initialyser';
 
 // console.warn('warning body');
-// init(Console.Warn, true);
+// init(ConsoleType.Warn, true);
 //
-// setFontColor(Console.Warn, fontColors.yellow);
-// setBgColor(Console.Warn, backgroundColors.cyan);
+// setFontColor(ConsoleType.Warn, fontColors.yellow);
+// setBgColor(ConsoleType.Warn, backgroundColors.cyan);
 // console.warn('works?');
 // console.warn('yes');
 //
-// setBgColor(Console.Warn, backgroundColors.red);
+// setBgColor(ConsoleType.Warn, backgroundColors.red);
 // console.warn({hi: 'there'});
 
 export {
-  Console,
+  ConsoleType,
   backgroundColors,
   fontColors,
   init,
