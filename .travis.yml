@@ -18,3 +18,11 @@ script:
 - npm run build:prod
 - npm run lint
 - npm run test
+
+deploy:
+  provider: npm
+  email: "alenkaru96@gmail.com"
+  api_key: $npm_token
+  skip_cleanup: true
+  on:
+      branch: production
