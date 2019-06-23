@@ -1,4 +1,6 @@
 # console-stylizer
+[![Build Status](https://travis-ci.org/gr8name/console-stylizer.svg?branch=master)](https://travis-ci.org/gr8name/console-stylizer)
+
 Library for console messages stylization
 
 ## Compiling
