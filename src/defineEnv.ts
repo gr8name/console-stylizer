@@ -8,24 +8,19 @@ export function envNotification(env: string) { console.log('running under ' + en
 /*
   Function that defines code environment (node|browser|unknown)
  */
-const getEnv = (): string => {
+const getEnv = (): Environment => {
   const isBrowser = new Function(
     'try {return this===window;}catch(e){ return false;}');
   const isNode = new Function(
     'try {return this===global;}catch(e){return false;}');
   
-  let env: string = null;
-  
   if (isBrowser()) {
-    env = Environment.Browser;
+    return  Environment.Browser;
   } else if (isNode()) {
-    env = Environment.Node;
+    return Environment.Node;
   } else {
-    env = Environment.Unknown;
+    return Environment.Unknown;
   }
-  
-  // envNotification(env);
-  return env;
 };
 
 export default getEnv;

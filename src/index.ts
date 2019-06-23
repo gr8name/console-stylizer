@@ -1,6 +1,6 @@
 import {backgroundColors, fontColors} from './colors';
 import {ConsoleType} from './consoleType';
-import {init, setBgColor, setFontColor} from './initialyser';
+import {init, setBgColor, setFontColor} from './initializer';
 
 // console.warn('warning body');
 // init(ConsoleType.Warn, true);
