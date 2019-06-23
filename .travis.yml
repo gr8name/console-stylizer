@@ -18,6 +18,7 @@ script:
 - npm run build:prod
 - npm run lint
 - npm run test
+- npm version patch
 
 deploy:
   provider: npm
