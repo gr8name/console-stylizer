@@ -51,6 +51,7 @@ export const init = function(consoleType: ConsoleType, showStylizationNotificati
   }
 
   if (logger && decorator) {
+    console[consoleType] = decorator;
     return decorator;
   }
 
