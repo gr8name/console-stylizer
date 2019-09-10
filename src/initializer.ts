@@ -16,6 +16,8 @@ export const getDecoratorFn = (logger: Logger, consoleType: ConsoleType, environ
     return browserConsoleDecorator(logger, consoleType);
   } else if (stringEnv.startsWith(Environment.Node.toString())) {
     return nodeConsoleDecorator(logger, consoleType);
+  } else {
+    return null;
   }
 };
 

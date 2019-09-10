@@ -3,7 +3,10 @@
     "declaration": true,
     "noImplicitAny": true,
     "outDir": "dist",
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
     "src/**/*"

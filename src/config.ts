@@ -8,7 +8,7 @@ type Config = {
   };
 };
 
-const initialiseStylizeConfig = (): any => {
+const initialiseStylizeConfig = (): Config => {
   return Object.keys(ConsoleType).reduce(
     (initialConfig: any, consoleType: string) => {
       return {
