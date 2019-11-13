@@ -1,5 +1,5 @@
-import {nodeConsoleDecorator} from '../src/consoleDecorators';
-import {ConsoleType} from '../src/consoleType';
+import {nodeConsoleDecorator} from '../src/browser/consoleDecorators';
+import {ConsoleType} from '../src/types/consoleType';
 import {init} from '../src/initializer';
 
 test('initialise console in node', () => {

@@ -3,12 +3,12 @@ import {
   browserStyleCode,
   fontColors,
   resetCode
-} from '../src/colors';
+} from '../src/node/colors';
 import {
   browserConsoleDecorator,
   nodeConsoleDecorator
-} from '../src/consoleDecorators';
-import {ConsoleType} from '../src/consoleType';
+} from '../src/browser/consoleDecorators';
+import {ConsoleType} from '../src/types/consoleType';
 import {setBgColor, setFontColor} from '../src/initializer';
 
 test('node console is stylized', () => {

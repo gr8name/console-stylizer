@@ -7,4 +7,4 @@ enum ConsoleType {
   Warn  = 'warn'
 }
 
-export {ConsoleType};
+export default ConsoleType;

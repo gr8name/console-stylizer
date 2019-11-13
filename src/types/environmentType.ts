@@ -1,10 +1,10 @@
 /*
   Possible environment types
  */
-const enum Environment {
+const enum EnvironmentType {
   Browser = 'browser',
   Node    = 'node',
   Unknown = 'unknown'
 }
 
-export {Environment};
+export default EnvironmentType;
