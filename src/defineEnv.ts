@@ -1,8 +1,8 @@
+import EnvironmentType from './types/environmentType';
+
 /*
   Logs current environment type to console
  */
-import EnvironmentType from './types/environmentType';
-
 export function envNotification(env: string) { console.log('running under ' + env.toString()); }
 
 /*

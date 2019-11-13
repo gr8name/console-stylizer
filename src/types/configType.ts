@@ -1,11 +1,19 @@
 import {Color} from './colorsPalette';
 import ConsoleType from './consoleType';
 
-type ConfigType = {
-  [propName in ConsoleType]: {
-    bgColor: Color,
-    fontColor: Color
-  };
-};
+type Logger = (message?: any, ...optionalParams: any[]) => void;
 
-export default ConfigType;
+enum ConfigProps {
+  bgColor = 'bgColor',
+  fontColor   = 'fontColor'
+}
+
+interface ConsoleConfigType {
+  [ConfigProps.bgColor]: Color;
+  [ConfigProps.fontColor]: Color;
+  initialLogger?: Logger;
+}
+
+interface ConfigType extends Map <ConsoleType, ConsoleConfigType> {}
+
+export {ConfigProps, ConsoleConfigType, ConfigType, Logger};

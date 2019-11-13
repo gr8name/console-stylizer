@@ -1,4 +1,5 @@
-import ConfigType from '../types/configType';
+import {Color} from '../types/colorsPalette';
+import {ConfigType} from '../types/configType';
 import ConsoleType from '../types/consoleType';
 import {resetCode} from './colors';
 
@@ -12,15 +13,13 @@ const nodeConsoleDecorator = (
   consoleType: ConsoleType,
   config: ConfigType
 ) => function(...args: any[]) {
-  const bgColor   = config[consoleType].bgColor;
-  const fontColor = config[consoleType].fontColor;
+  const bgColor: Color   = config.get(consoleType).bgColor;
+  const fontColor: Color = config.get(consoleType).fontColor;
   
-  Promise.resolve().then(() => {
-    logger.apply(
+  logger.apply(
       this,
       Array.prototype.slice.call([bgColor, fontColor, ...args, resetCode])
-    );
-  });
+  );
 };
 
 export default nodeConsoleDecorator;

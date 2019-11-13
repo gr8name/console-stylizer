@@ -1,5 +1,5 @@
 import {Color} from '../types/colorsPalette';
-import ConfigType from '../types/ConfigType';
+import {ConfigType} from '../types/ConfigType';
 import ConsoleType from '../types/consoleType';
 import {browserStyleCode} from './colors';
 
@@ -13,12 +13,13 @@ export const browserConsoleDecorator = (
   consoleType: ConsoleType,
   config: ConfigType
 ) => function(...args: any[]) {
-  const bgColor: Color = config[consoleType].bgColor;
-  const fontColor: Color = config[consoleType].fontColor;
+  const bgColor: Color = config.get(consoleType).bgColor;
+  const fontColor: Color = config.get(consoleType).fontColor;
   
   const [message, ...restArgs] = args;
   
   const textMessage = typeof message === 'object' ? JSON.stringify(message) : message;
+  
   logger.apply(
     this,
     Array.prototype.slice.call([

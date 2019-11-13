@@ -1,41 +1,55 @@
 import getEnv from './defineEnv';
 import {Color, ColorsPalette} from './types/colorsPalette';
-import ConfigType from './types/configType';
+import {ConfigProps, ConfigType} from './types/configType';
 import ConsoleType from './types/consoleType';
 
 let consoleConfig: ConfigType = null;
 
-const initialiseStylizeConfig = (defaultbgColor: Color, defaultFontColor: Color): ConfigType => {
-  return Object.keys(ConsoleType).reduce(
-    (initialConfig: any, consoleType: string) => {
-      return {
-        ...initialConfig,
-        [consoleType.toString().toLowerCase()]: {
-          bgColor  : defaultbgColor,
-          fontColor: defaultFontColor
-        }
-      };
-    },
-    {}
-  ) as ConfigType;
+/**
+ * Function for initialising and updating consoleConfig
+ */
+const setStylizeConfig = (consoleType: ConsoleType, bgColor: Color, fontColor: Color): ConfigType => {
+  if (!consoleConfig) {
+    consoleConfig = new Map();
+  }
+  
+  consoleConfig.set(consoleType, {
+    bgColor,
+    fontColor
+  });
+
+  return consoleConfig;
+};
+
+/**
+ * Function for setting color properties in consoleConfig
+ */
+const setProperty = (property: ConfigProps, consoleType: ConsoleType, value: any) => {
+  if (value) {
+    const config = consoleConfig.get(consoleType);
+    
+    if (config && config[property]) {
+      config[property] = value;
+    } else {
+      throw new Error('No such property in config found');
+    }
+  } else {
+    throw new Error('No value for config update specified');
+  }
 };
 
 /**
  * Function that changes font color  in stylizerConfig
  */
 export const setFontColor = (consoleType: ConsoleType, color: Color) => {
-  if (color) {
-    consoleConfig[consoleType].fontColor = color;
-  }
+  setProperty(ConfigProps.fontColor, consoleType, color);
 };
 
 /**
  * Function that changes font background color in stylizerConfig
  */
 export const setBgColor = (consoleType: ConsoleType, color: Color) => {
-  if (color) {
-    consoleConfig[consoleType].bgColor = color;
-  }
+  setProperty(ConfigProps.bgColor, consoleType, color);
 };
 
 /**
@@ -49,36 +63,36 @@ export const init = function(
 ) {
   const logger = console[consoleType];
   const environment = getEnv();
-  
   const moduleSpecifier = `./${environment}/index`;
-  // let isResolved        = false;
+
   console.log(moduleSpecifier, 'path');
   
-  (async function getFirstUser() {
-    try {
-      const module = await import(moduleSpecifier);
-      
-      const {consoleDecorator, backgroundColors, fontColors} = module.default;
-      
-      consoleConfig = initialiseStylizeConfig(
-        backgroundColor || backgroundColors.get(ColorsPalette.magenta),
-        fontColor || fontColors.get(ColorsPalette.yellow)
-      );
-      
-      const decorator = consoleDecorator(logger, consoleType, consoleConfig);
-      
-      if (logger && decorator) {
-        console[consoleType] = decorator;
-        
-        if (showStylizationNotification) {
-          console.log(`console.${consoleType} is stylised\n`);
-        }
+  import(moduleSpecifier).then((module) => {
+    const {getConsoleDecorator, backgroundColors, fontColors} = module.default;
+    
+    // TODO: remove default colors
+    // tslint:disable-next-line:max-line-length
+    setStylizeConfig(consoleType, backgroundColor || backgroundColors.get(ColorsPalette.magenta), fontColor || fontColors.get(ColorsPalette.yellow));
+
+    const decorator = getConsoleDecorator(logger, consoleType, consoleConfig);
+    
+    if (logger && decorator) {
+      console[consoleType] = decorator;
+  
+      consoleConfig.get(consoleType).initialLogger = logger;
+  
+      if (showStylizationNotification) {
+        console.log(`console.${consoleType} is stylised\n`);
       }
-      // isResolved = true;
-      console.warn('styled init');
-      // return decorator;
-    } catch (err) {
-      console.log('!!! Unhandled promise rejection: Module name not resolved');
+    } else {
+      throw new Error('Styling Error');
     }
-  })();
+    
+    console.warn('styled init');
+    
+    return logger;
+  }).catch((e) => {
+    console.log('!!! Unhandled error !!!');
+    console.log(e);
+  });
 };

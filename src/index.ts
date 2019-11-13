@@ -9,7 +9,7 @@ init(ConsoleType.Warn, null, null, true);
 // setBgColor(ConsoleType.Warn, backgroundColors.cyan);
 console.warn('works?');
 // console.warn('yes');
-//
+
 // setBgColor(ConsoleType.Warn, backgroundColors.red);
 // console.warn({hi: 'there'});
 
