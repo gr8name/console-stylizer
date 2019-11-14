@@ -4,6 +4,13 @@ import {ConfigProps, ConfigType} from './types/configType';
 import ConsoleType from './types/consoleType';
 
 let consoleConfig: ConfigType = null;
+const callStack: any[] = [];
+
+function rememberCall() {
+  return function(...args: any) { // возвращает функцию-обёртку
+    callStack.push({context: this, args});
+  };
+}
 
 /**
  * Function for initialising and updating consoleConfig
@@ -62,6 +69,9 @@ export const init = function(
   showStylizationNotification?: boolean
 ) {
   const logger = console[consoleType];
+  
+  console[consoleType] = rememberCall();
+  
   const environment = getEnv();
   const moduleSpecifier = `./${environment}/index`;
 
@@ -89,6 +99,10 @@ export const init = function(
     }
     
     console.warn('styled init');
+    
+    callStack.forEach((call: any) => {
+      console[consoleType].apply(call.context, call.args);
+    });
     
     return logger;
   }).catch((e) => {

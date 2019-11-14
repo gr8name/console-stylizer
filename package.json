@@ -25,7 +25,7 @@
     "build:prod": "tsc -b --verbose",
     "build:browser": "browserify dist/index.js > bundle.js",
     "build:doc": "jsdoc2md --files src/*.ts --configure conf.json > docs.md",
-    "run:node": "node dist/index.js",
+    "run:node": "npm run build && node dist/index.js",
     "lint": "tslint -p tsconfig.json",
     "docs": "jsdoc -c conf.json",
     "test": "jest",
