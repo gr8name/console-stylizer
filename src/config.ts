@@ -1,23 +1,16 @@
-import {callStack, rememberCall} from './rememerFnCall';
+import {applyCachedFuncCalls, rememberCall} from './rememerFnCall';
 import staticData from './staticData';
 import {ConsoleConfigType, Logger} from './types/configType';
 import ConsoleType from './types/consoleType';
 
-function consoleDecorator(
-  logger: Logger,
-  config: ConsoleConfigType,
-  decoratedArgsGenerator: any
-) {
+function consoleDecorator(logger: Logger, config: ConsoleConfigType, decoratedArgsGenerator: any) {
   const argsDecorator = decoratedArgsGenerator(config);
   staticData.argsGenerator = decoratedArgsGenerator;
   
   return function(...args: any[]) {
     const decoratedArgs = argsDecorator(...args);
     
-    logger.apply(
-      this,
-      decoratedArgs
-    );
+    logger.apply(this, decoratedArgs);
   };
 }
 
@@ -30,15 +23,21 @@ function setStylizeConfig(consoleType: ConsoleType, updateConfig: ConsoleConfigT
 export const init = function(
   consoleType: ConsoleType,
   consoleConfig: ConsoleConfigType,
-  showStylizationNotification?: boolean
+  showStylizationNotification?: boolean,
+  otherLogger?: Logger,
+  otherCallsID?: number
 ) {
-  const initialLogger = console[consoleType];
-  console[consoleType] = rememberCall();
+  const initialLogger = otherLogger || console[consoleType];
+  let callsID = otherCallsID;
+  if (!otherCallsID) {
+    console[consoleType] = rememberCall();
+    // @ts-ignore
+    callsID = console[consoleType].callsID;
+  }
 
   import(staticData.moduleSpecifier).then((module) => {
     const {decoratedArgsGenerator} = module.default;
     
-    // TODO: remove default config
     const config: ConsoleConfigType = setStylizeConfig(consoleType, {initialLogger, ...consoleConfig});
     
     const decorator = consoleDecorator(initialLogger, config, decoratedArgsGenerator);
@@ -53,16 +52,36 @@ export const init = function(
     } else {
       throw new Error('Styling Error');
     }
-    
-    console.warn('styled init');
-    
-    callStack.forEach((call: any) => {
-      console[consoleType].apply(call.context, call.args);
-    });
+  
+    applyCachedFuncCalls(callsID, console[consoleType]);
     
     return initialLogger;
   }).catch((e) => {
     console.log('!!! Unhandled error !!!');
     console.log(e);
   });
+};
+
+export const cachedInit = (
+  consoleType: ConsoleType,
+  consoleConfig: ConsoleConfigType,
+  showStylizationNotification?: boolean
+) => {
+  // @ts-ignore
+  if (console[consoleType].isWrapper) {
+    console[consoleType] = rememberCall();
+    // @ts-ignore
+    const callsID = console[consoleType].callsID;
+    
+    const timerId = setInterval(() => {
+      // @ts-ignore
+      if (!console[consoleType].isWrapper) {
+        clearTimeout(timerId);
+        const logger = staticData.consoleConfig.get(consoleType);
+        init(consoleType, consoleConfig, showStylizationNotification, logger && logger.initialLogger, callsID);
+      }
+    }, 10);
+  } else {
+    init(consoleType, consoleConfig, showStylizationNotification);
+  }
 };

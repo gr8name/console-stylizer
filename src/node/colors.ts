@@ -4,14 +4,14 @@ export const resetCode = '\x1b[0m';
 export const browserStyleCode = '%c';
 
 export const fontColors: Map<ColorsPalette, string> = new Map( [
-  [ColorsPalette.black, '\x1b[30m'],
+  [ColorsPalette.white, '\x1b[30m'],
   [ColorsPalette.blue, '\x1b[34m'],
   [ColorsPalette.cyan, '\x1b[36m'],
   [ColorsPalette.default, ''],
   [ColorsPalette.green, '\x1b[32m'],
   [ColorsPalette.magenta, '\x1b[35m'],
   [ColorsPalette.red, '\x1b[31m'],
-  [ColorsPalette.white, '\x1b[37m'],
+  [ColorsPalette.black, '\x1b[37m'],
   [ColorsPalette.yellow, '\x1b[33m']
 ]);
 
