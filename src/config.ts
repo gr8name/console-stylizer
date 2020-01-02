@@ -23,7 +23,6 @@ function setStylizeConfig(consoleType: ConsoleType, updateConfig: ConsoleConfigT
 export const init = function(
   consoleType: ConsoleType,
   consoleConfig: ConsoleConfigType,
-  showStylizationNotification?: boolean,
   otherLogger?: Logger,
   otherCallsID?: number
 ) {
@@ -44,11 +43,6 @@ export const init = function(
     
     if (initialLogger && decorator) {
       console[consoleType] = decorator;
-  
-      if (showStylizationNotification) {
-        // TODO: fix stylised notification (call initial logger for console.log)
-        console.log(`console.${consoleType} is stylised\n`);
-      }
     } else {
       throw new Error('Styling Error');
     }
@@ -65,7 +59,6 @@ export const init = function(
 export const cachedInit = (
   consoleType: ConsoleType,
   consoleConfig: ConsoleConfigType,
-  showStylizationNotification?: boolean
 ) => {
   // @ts-ignore
   if (console[consoleType].isWrapper) {
@@ -78,10 +71,10 @@ export const cachedInit = (
       if (!console[consoleType].isWrapper) {
         clearTimeout(timerId);
         const logger = staticData.consoleConfig.get(consoleType);
-        init(consoleType, consoleConfig, showStylizationNotification, logger && logger.initialLogger, callsID);
+        init(consoleType, consoleConfig, logger && logger.initialLogger, callsID);
       }
     }, 10);
   } else {
-    init(consoleType, consoleConfig, showStylizationNotification);
+    init(consoleType, consoleConfig);
   }
 };
