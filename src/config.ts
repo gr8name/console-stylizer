@@ -1,97 +1,53 @@
-import getEnv from './defineEnv';
-import {Color, ColorsPalette} from './types/colorsPalette';
-import {ConfigProps, ConfigType} from './types/configType';
+import {callStack, rememberCall} from './rememerFnCall';
+import staticData from './staticData';
+import {ConsoleConfigType, Logger} from './types/configType';
 import ConsoleType from './types/consoleType';
 
-let consoleConfig: ConfigType = null;
-const callStack: any[] = [];
-
-function rememberCall() {
-  return function(...args: any) { // возвращает функцию-обёртку
-    callStack.push({context: this, args});
+function consoleDecorator(
+  logger: Logger,
+  config: ConsoleConfigType,
+  decoratedArgsGenerator: any
+) {
+  const argsDecorator = decoratedArgsGenerator(config);
+  staticData.argsGenerator = decoratedArgsGenerator;
+  
+  return function(...args: any[]) {
+    const decoratedArgs = argsDecorator(...args);
+    
+    logger.apply(
+      this,
+      decoratedArgs
+    );
   };
 }
 
-/**
- * Function for initialising and updating consoleConfig
- */
-const setStylizeConfig = (consoleType: ConsoleType, bgColor: Color, fontColor: Color): ConfigType => {
-  if (!consoleConfig) {
-    consoleConfig = new Map();
-  }
-  
-  consoleConfig.set(consoleType, {
-    bgColor,
-    fontColor
-  });
+function setStylizeConfig(consoleType: ConsoleType, updateConfig: ConsoleConfigType): ConsoleConfigType {
+  staticData.consoleConfig.set(consoleType, updateConfig);
 
-  return consoleConfig;
-};
+  return updateConfig;
+}
 
-/**
- * Function for setting color properties in consoleConfig
- */
-const setProperty = (property: ConfigProps, consoleType: ConsoleType, value: any) => {
-  if (value) {
-    const config = consoleConfig.get(consoleType);
-    
-    if (config && config[property]) {
-      config[property] = value;
-    } else {
-      throw new Error('No such property in config found');
-    }
-  } else {
-    throw new Error('No value for config update specified');
-  }
-};
-
-/**
- * Function that changes font color  in stylizerConfig
- */
-export const setFontColor = (consoleType: ConsoleType, color: Color) => {
-  setProperty(ConfigProps.fontColor, consoleType, color);
-};
-
-/**
- * Function that changes font background color in stylizerConfig
- */
-export const setBgColor = (consoleType: ConsoleType, color: Color) => {
-  setProperty(ConfigProps.bgColor, consoleType, color);
-};
-
-/**
- * Function that initialise styles for selected logger
- */
 export const init = function(
   consoleType: ConsoleType,
-  fontColor?: Color,
-  backgroundColor?: Color,
+  consoleConfig: ConsoleConfigType,
   showStylizationNotification?: boolean
 ) {
-  const logger = console[consoleType];
-  
+  const initialLogger = console[consoleType];
   console[consoleType] = rememberCall();
-  
-  const environment = getEnv();
-  const moduleSpecifier = `./${environment}/index`;
 
-  console.log(moduleSpecifier, 'path');
-  
-  import(moduleSpecifier).then((module) => {
-    const {getConsoleDecorator, backgroundColors, fontColors} = module.default;
+  import(staticData.moduleSpecifier).then((module) => {
+    const {decoratedArgsGenerator} = module.default;
     
-    // TODO: remove default colors
-    // tslint:disable-next-line:max-line-length
-    setStylizeConfig(consoleType, backgroundColor || backgroundColors.get(ColorsPalette.magenta), fontColor || fontColors.get(ColorsPalette.yellow));
-
-    const decorator = getConsoleDecorator(logger, consoleType, consoleConfig);
+    // TODO: remove default config
+    const config: ConsoleConfigType = setStylizeConfig(consoleType, {initialLogger, ...consoleConfig});
     
-    if (logger && decorator) {
+    const decorator = consoleDecorator(initialLogger, config, decoratedArgsGenerator);
+    
+    if (initialLogger && decorator) {
       console[consoleType] = decorator;
   
-      consoleConfig.get(consoleType).initialLogger = logger;
-  
       if (showStylizationNotification) {
+        // TODO: fix stylised notification (call initial logger for console.log)
         console.log(`console.${consoleType} is stylised\n`);
       }
     } else {
@@ -104,7 +60,7 @@ export const init = function(
       console[consoleType].apply(call.context, call.args);
     });
     
-    return logger;
+    return initialLogger;
   }).catch((e) => {
     console.log('!!! Unhandled error !!!');
     console.log(e);

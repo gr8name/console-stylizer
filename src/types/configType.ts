@@ -1,4 +1,4 @@
-import {Color} from './colorsPalette';
+import {ColorsPalette} from './colorsPalette';
 import ConsoleType from './consoleType';
 
 type Logger = (message?: any, ...optionalParams: any[]) => void;
@@ -9,8 +9,8 @@ enum ConfigProps {
 }
 
 interface ConsoleConfigType {
-  [ConfigProps.bgColor]: Color;
-  [ConfigProps.fontColor]: Color;
+  [ConfigProps.bgColor]?: ColorsPalette;
+  [ConfigProps.fontColor]?: ColorsPalette;
   initialLogger?: Logger;
 }
 

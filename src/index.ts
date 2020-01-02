@@ -1,21 +1,21 @@
-import {backgroundColors, fontColors} from './browser/colors';
-import {init, setBgColor, setFontColor} from './config';
+import {init} from './config';
+import {setBgColor, setFontColor} from './propertySetters';
+import {ColorsPalette} from './types/colorsPalette';
 import ConsoleType from './types/consoleType';
 
-// console.warn('warning body');
-init(ConsoleType.Warn, null, null, true);
-//
-// setFontColor(ConsoleType.Warn, fontColors.yellow);
-// setBgColor(ConsoleType.Warn, backgroundColors.cyan);
+console.warn('warning body');
+
+init(ConsoleType.Warn, {bgColor  : ColorsPalette.magenta, fontColor: ColorsPalette.yellow}, true);
+
 console.warn('works?');
 
-// setBgColor(ConsoleType.Warn, backgroundColors.red);
+// init(ConsoleType.Warn, {bgColor: ColorsPalette.magenta, fontColor: ColorsPalette.red}, true);
+
 console.warn({hi: 'there'});
 
 export {
   ConsoleType,
-  backgroundColors,
-  fontColors,
+  ColorsPalette,
   init,
   setBgColor,
   setFontColor,

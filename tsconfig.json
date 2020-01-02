@@ -15,7 +15,9 @@
     "tests/**/*"
   ],
   "lib": [
-    "es6"
+    "es2016",
+    "dom",
+    "es5"
   ],
   "presets": [
     [

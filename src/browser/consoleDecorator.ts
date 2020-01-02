@@ -1,6 +1,5 @@
-import {Color} from '../types/colorsPalette';
-import {ConfigType} from '../types/ConfigType';
-import ConsoleType from '../types/consoleType';
+import {backgroundColors, fontColors} from '../node/colors';
+import {ConsoleConfigType} from '../types/ConfigType';
 import {browserStyleCode} from './colors';
 
 export type Logger = (message?: any, ...otherParams: any[]) => void;
@@ -10,11 +9,10 @@ export type Logger = (message?: any, ...otherParams: any[]) => void;
  */
 export const browserConsoleDecorator = (
   logger: Logger,
-  consoleType: ConsoleType,
-  config: ConfigType
+  config: ConsoleConfigType
 ) => function(...args: any[]) {
-  const bgColor: Color = config.get(consoleType).bgColor;
-  const fontColor: Color = config.get(consoleType).fontColor;
+  const bgColor: string   = backgroundColors.get(config.bgColor);
+  const fontColor: string = fontColors.get(config.fontColor);
   
   const [message, ...restArgs] = args;
   
@@ -24,7 +22,7 @@ export const browserConsoleDecorator = (
     this,
     Array.prototype.slice.call([
                                  browserStyleCode + textMessage,
-                                 bgColor.toString() + fontColor.toString(),
+                                 bgColor + fontColor,
                                  ...restArgs
                                ])
   );
