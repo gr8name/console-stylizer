@@ -1,7 +1,7 @@
+import {ConsoleConfigType, Logger} from '../types/configType';
+import ConsoleType from '../types/consoleType';
 import {applyCachedFuncCalls, rememberCall} from './rememerFnCall';
 import staticData from './staticData';
-import {ConsoleConfigType, Logger} from './types/configType';
-import ConsoleType from './types/consoleType';
 
 function consoleDecorator(logger: Logger, config: ConsoleConfigType, decoratedArgsGenerator: any) {
   const argsDecorator = decoratedArgsGenerator(config);

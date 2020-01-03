@@ -1,4 +1,4 @@
-import EnvironmentType from './types/environmentType';
+import EnvironmentType from '../types/environmentType';
 
 /*
   Logs current environment type to console

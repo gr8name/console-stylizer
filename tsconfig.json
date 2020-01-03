@@ -11,20 +11,6 @@
   "include": [
     "src/**/*"
   ],
-  "exclude": [
-    "tests/**/*"
-  ],
-  "lib": [
-    "es2016",
-    "dom",
-    "es5"
-  ],
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false
-      }
-    ]
-  ]
+  "target": "ES5",
+  "module": "commonjs"
 }

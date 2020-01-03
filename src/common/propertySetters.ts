@@ -1,7 +1,7 @@
+import {ColorsPalette} from '../types/colorsPalette';
+import {ConfigProps} from '../types/configType';
+import ConsoleType from '../types/consoleType';
 import staticData from './staticData';
-import {ColorsPalette} from './types/colorsPalette';
-import {ConfigProps} from './types/configType';
-import ConsoleType from './types/consoleType';
 
 function setProperty(property: ConfigProps, consoleType: ConsoleType, value: any) {
   console.log('setProperty');
