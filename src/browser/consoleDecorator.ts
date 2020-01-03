@@ -2,30 +2,17 @@ import {backgroundColors, fontColors} from '../node/colors';
 import {ConsoleConfigType} from '../types/configType';
 import {browserStyleCode} from './colors';
 
-export type Logger = (message?: any, ...otherParams: any[]) => void;
-
-/**
- * Function used for console stylizing in browser environment
- */
-export const browserConsoleDecorator = (
-  logger: Logger,
-  config: ConsoleConfigType
-) => function(...args: any[]) {
+const decoratedArgsGenerator = (config: ConsoleConfigType) => {
+  // TODO: cash result with same config
   const bgColor: string   = backgroundColors.get(config.bgColor);
   const fontColor: string = fontColors.get(config.fontColor);
   
-  const [message, ...restArgs] = args;
-  
-  const textMessage = typeof message === 'object' ? JSON.stringify(message) : message;
-  
-  logger.apply(
-    this,
-    Array.prototype.slice.call([
-                                 browserStyleCode + textMessage,
-                                 bgColor + fontColor,
-                                 ...restArgs
-                               ])
-  );
+  return function(...args: any[]) {
+    const [message, ...restArgs] = args;
+    const textMessage = typeof message === 'object' ? JSON.stringify(message) : message;
+    
+    return Array.prototype.slice.call([browserStyleCode + textMessage, bgColor + fontColor, ...restArgs]);
+  };
 };
 
-export default browserConsoleDecorator;
+export default decoratedArgsGenerator;
