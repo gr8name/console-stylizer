@@ -1,5 +1,5 @@
 import {backgroundColors, fontColors} from '../node/colors';
-import {ConsoleConfigType} from '../types/ConfigType';
+import {ConsoleConfigType} from '../types/configType';
 import {browserStyleCode} from './colors';
 
 export type Logger = (message?: any, ...otherParams: any[]) => void;
