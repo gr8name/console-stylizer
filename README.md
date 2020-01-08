@@ -26,7 +26,7 @@ stylize(ConsoleType.Error, {fontColor: ColorsPalette.green});
 
 ```
 
-5. Check that styles applied
+4. Check that styles applied
 ```
 console.log('test string');
 

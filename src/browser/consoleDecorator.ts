@@ -4,8 +4,8 @@ import {browserStyleCode} from './colors';
 
 const decoratedArgsGenerator = (config: ConsoleConfigType) => {
   // TODO: cash result with same config
-  const bgColor: string   = backgroundColors.get(config.bgColor);
-  const fontColor: string = fontColors.get(config.fontColor);
+  const bgColor: string   = config.bgColor ? backgroundColors.get(config.bgColor) : '';
+  const fontColor: string = config.fontColor ? fontColors.get(config.fontColor) : '';
   
   return function(...args: any[]) {
     const [message, ...restArgs] = args;
