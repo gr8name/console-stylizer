@@ -1,5 +1,7 @@
 import {ConsoleConfigType, Logger} from '../types/configType';
 import ConsoleType from '../types/consoleType';
+import EnvironmentType from '../types/environmentType';
+import getEnv from './defineEnv';
 import {applyCachedFuncCalls, rememberCall} from './rememerFnCall';
 import staticData from './staticData';
 
@@ -33,14 +35,15 @@ export const init = function(
     // @ts-ignore
     callsID = console[consoleType].callsID;
   }
-
-  import(staticData.moduleSpecifier).then((module) => {
+  
+  const environment: EnvironmentType     = getEnv();
+  const stylizeFn = (module: any) => {
     const {decoratedArgsGenerator} = module.default;
-    
+  
     const config: ConsoleConfigType = setStylizeConfig(consoleType, {initialLogger, ...consoleConfig});
-    
+  
     const decorator = consoleDecorator(initialLogger, config, decoratedArgsGenerator);
-    
+  
     if (initialLogger && decorator) {
       console[consoleType] = decorator;
     } else {
@@ -48,9 +51,19 @@ export const init = function(
     }
   
     applyCachedFuncCalls(callsID, console[consoleType]);
-    
+  
     return initialLogger;
-  }).catch((e) => {
+  };
+  const stylizeErrFn = (e: Error) => {
+    console.log('!!! Unhandled error !!!');
+    console.log(e);
+  };
+  
+  const importPromise: Promise<any> = environment === EnvironmentType.Node
+    ? import( '../node/index.js').then(stylizeFn).catch(stylizeErrFn)
+    : import( '../browser/index.js').then(stylizeFn).catch(stylizeErrFn);
+  
+  importPromise.then().catch((e) => {
     console.log('!!! Unhandled error !!!');
     console.log(e);
   });

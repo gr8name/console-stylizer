@@ -1,6 +1,6 @@
 import {backgroundColors, fontColors} from './colors';
-import getConsoleDecorator from './consoleDecorator';
+import decoratedArgsGenerator from './consoleDecorator';
 
 console.log('loaded module for browser...');
 
-export default {getConsoleDecorator , backgroundColors, fontColors};
+export default {decoratedArgsGenerator , backgroundColors, fontColors};
