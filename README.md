@@ -1,7 +1,7 @@
 # console-stylizer
 [![Build Status](https://travis-ci.org/gr8name/console-stylizer.svg?branch=master)](https://travis-ci.org/gr8name/console-stylizer)
 
-Library for console messages stylization
+Library for console messages stylization.
 
 ## Setup
 
@@ -11,74 +11,24 @@ Library for console messages stylization
 npm install console-stylizer
 ```
 
-2. Import styliser and enum with available console types 
+2. Import styliser function and enums with available console types and colors 
 ```
-import {Console, init} from '../src';
+import {stylize, ConsoleType, ColorsPalette} from 'console-stylizer';
 ``` 
 
 3. Run initializer with console type you want to stylise
 ```
-// Inityalises console.warn without notifications
-init(Console.Warn);
+// Set yellow font color and magenta bacroundg color to console.warn 
+stylize(ConsoleType.Log, {fontColor: ColorsPalette.yellow, bgColor: ColorsPalette.magenta});
 
-// Inityalises console.log with notifications 
-init(Console.Log, true);
+// Set green font color to console.warn 
+stylize(ConsoleType.Error, {fontColor: ColorsPalette.green});
+
 ```
 
-4. Config console stylization
-```
-// Set font color for console.warn to yellow
-setFontColor(Console.Warn, fontColors.yellow);
-
-// Set background color for console.log to cyan
-setBgColor(Console.Log, backgroundColors.cyan);
-```
-
-5. Check that everything works
+5. Check that styles applied
 ```
 console.log('test string');
 
 console.warn({test: 'object'});
-```
-
-## Compiling
-To compile Typescript code to JavaScript:
- ```
- npm run build:prod
- ```
- 
-### Code analysis
-To analyse code for readability, maintainability, and functionality errors:
- ```
- npm run lint
- ```
- 
-## Test checking
-To run tests: 
- ```
- npm run test
- ```
- 
-### Continuous test running
-To run test in watch mode:
- ```
- npm run test:tdd
- ```
-
-## Documentation generation
-To generate documentation you need:
-
-1. To install jsdoc globally:
-```
-npm install -g jsdoc
-```
-2. Run:
-```
-npm run docs
-```
-
-### Generate documentation in single md file
-Run:
-```
-npm run build:doc
 ```
