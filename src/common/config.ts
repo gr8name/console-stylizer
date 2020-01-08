@@ -60,7 +60,7 @@ export const init = function(
   };
   
   const importPromise: Promise<any> = environment === EnvironmentType.Node
-    ? import( '../node/index.js').then(stylizeFn).catch(stylizeErrFn)
+    ? import( '../browser/index.js').then(stylizeFn).catch(stylizeErrFn)
     : import( '../browser/index.js').then(stylizeFn).catch(stylizeErrFn);
   
   importPromise.then().catch((e) => {
