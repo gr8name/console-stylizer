@@ -1,4 +1,5 @@
 import {ColorsPalette, ConsoleType, stylize} from '../src';
+import * as rememerFnCall from '../src/common/rememerFnCall';
 import {backgroundColors, fontColors, resetCode} from '../src/node/colors';
 import decoratedArgsGenerator from '../src/node/consoleDecorator';
 
@@ -21,12 +22,11 @@ test('initialise console in node', () => {
     resetCode.toString()
   ];
   
-  expect(argsDecorator(textString)).toBe(expectedArgs.toString());
+  expect(argsDecorator(textString).toString()).toBe(expectedArgs.toString());
 });
 
 test('multiple initialise do not fail', () => {
-  // @ts-ignore
-  const spy = jest.spyOn(stylize, stylize);
+  const consoleInfoSpy = jest.spyOn(rememerFnCall, 'rememberCall');
   
   stylize(ConsoleType.Log, {
     bgColor  : ColorsPalette.magenta,
@@ -36,7 +36,5 @@ test('multiple initialise do not fail', () => {
   stylize(ConsoleType.Log, {
     bgColor  : ColorsPalette.red,
     fontColor: ColorsPalette.green,
-  });
-  
-  expect(spy).toBeCalledTimes(2);
+  }).then(() => expect(consoleInfoSpy).toBeCalledTimes(2));
 });

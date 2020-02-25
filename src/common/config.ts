@@ -74,22 +74,31 @@ export const init = function(
 export const cachedInit = (
   consoleType: ConsoleType,
   consoleConfig: ConsoleConfigType,
-) => {
+): Promise<any> | null => {
   // @ts-ignore
   if (console[consoleType].isWrapper) {
     console[consoleType] = rememberCall();
     // @ts-ignore
     const callsID = console[consoleType].callsID;
-    
-    const timerId = setInterval(() => {
-      // @ts-ignore
-      if (!console[consoleType].isWrapper) {
-        clearTimeout(timerId);
-        const logger = staticData.consoleConfig.get(consoleType);
-        init(consoleType, consoleConfig, logger && logger.initialLogger, callsID);
-      }
-    }, 10);
+  
+    return new Promise((resolve) => {
+      const timerId = setInterval(() => {
+        // @ts-ignore
+        if (!console[consoleType].isWrapper) {
+          clearTimeout(timerId);
+          const logger = staticData.consoleConfig.get(consoleType);
+          init(
+            consoleType,
+            consoleConfig,
+            logger && logger.initialLogger,
+            callsID
+          );
+          resolve();
+        }
+      }, 10);
+    });
   } else {
     init(consoleType, consoleConfig);
+    return Promise.resolve();
   }
 };
