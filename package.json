@@ -29,7 +29,7 @@
     "lint": "tslint -p tsconfig.json",
     "docs": "jsdoc -c conf.json",
     "test": "jest",
-    "test:prod": "jest --coverage --coverageReporters=text-lcov | coveralls"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

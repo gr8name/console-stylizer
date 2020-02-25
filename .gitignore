@@ -4,8 +4,8 @@ node_modules/
 # Ignore generated documentation
 docs/
 
-# Ignore test coverage date
-coverage/
+## Ignore test coverage date
+#coverage/
 
 # Ignore built files
 dist/

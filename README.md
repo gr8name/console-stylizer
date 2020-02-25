@@ -1,5 +1,6 @@
 # console-stylizer
 [![Build Status](https://travis-ci.org/gr8name/console-stylizer.svg?branch=master)](https://travis-ci.org/gr8name/console-stylizer)
+[![Coverage Status](https://coveralls.io/repos/github/gr8name/console-stylizer/badge.svg?branch=master)](https://coveralls.io/github/gr8name/console-stylizer?branch=master)
 
 Library for console messages stylization.
 

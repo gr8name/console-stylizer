@@ -25,7 +25,7 @@ test('initialise console in node', () => {
   expect(argsDecorator(textString).toString()).toBe(expectedArgs.toString());
 });
 
-test('multiple initialise do not fail', () => {
+test('multiple initialise do not fail', async () => {
   const consoleInfoSpy = jest.spyOn(rememerFnCall, 'rememberCall');
   
   stylize(ConsoleType.Log, {
@@ -33,7 +33,7 @@ test('multiple initialise do not fail', () => {
     fontColor: ColorsPalette.yellow,
   });
   
-  stylize(ConsoleType.Log, {
+  await stylize(ConsoleType.Log, {
     bgColor  : ColorsPalette.red,
     fontColor: ColorsPalette.green,
   }).then(() => expect(consoleInfoSpy).toBeCalledTimes(2));
