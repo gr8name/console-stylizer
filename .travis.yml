@@ -17,7 +17,6 @@ install:
 script:
 - npm run build:prod
 - npm run lint
-- npm run test:prod
 - npm version 1.0.7
 
 script: echo "Running tests against $(node -v)..."
