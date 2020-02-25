@@ -1,8 +1,6 @@
 import {ConsoleConfigType} from '../types/configType';
 import {backgroundColors, fontColors, resetCode} from './colors';
 
-export type Logger = (message?: any, ...otherParams: any[]) => void;
-
 const decoratedArgsGenerator = (config: ConsoleConfigType) => {
   // TODO: cash result with same config
   const bgColor: string   = config.bgColor ? backgroundColors.get(config.bgColor) : '';

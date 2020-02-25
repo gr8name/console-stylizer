@@ -13,6 +13,8 @@ function consoleDecorator(logger: Logger, config: ConsoleConfigType, decoratedAr
     const decoratedArgs = argsDecorator(...args);
     
     logger.apply(this, decoratedArgs);
+    
+    return decoratedArgs;
   };
 }
 
