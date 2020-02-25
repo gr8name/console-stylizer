@@ -25,16 +25,20 @@ test('initialise console in node', () => {
   expect(argsDecorator(textString).toString()).toBe(expectedArgs.toString());
 });
 
-test('multiple initialise do not fail', async () => {
-  const consoleInfoSpy = jest.spyOn(rememerFnCall, 'rememberCall');
+test('multiple initialise do not fail', () => {
+  const spy = jest.spyOn(rememerFnCall, 'rememberCall');
+
+  // @ts-ignore
+  jest.spyOn(global, 'setInterval').mockImplementation(() => ({}));
   
   stylize(ConsoleType.Log, {
     bgColor  : ColorsPalette.magenta,
     fontColor: ColorsPalette.yellow,
   });
   
-  await stylize(ConsoleType.Log, {
+  stylize(ConsoleType.Log, {
     bgColor  : ColorsPalette.red,
     fontColor: ColorsPalette.green,
-  }).then(() => expect(consoleInfoSpy).toBeCalledTimes(2));
-});
+  }).then(() => expect(spy).toBeCalledTimes(2));
+
+})
